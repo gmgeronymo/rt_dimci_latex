@@ -1,0 +1,613 @@
+% ------------------------------------------------------------
+% 
+% Gean Marcos Geronymo
+% INMETRO - DIMCI - DIELE - LAMPE
+
+% gmgeronymo@inmetro.gov.br
+% 14/11/2023
+% 
+% baseado no modelo de Flavio Alexandre da Silveira (RT 1366/2018)
+% atualizado para MOD-Dimci-024 rev. 07
+% 
+% 
+% ------------------------------------------------------------
+
+% Dados do relatorio - preencher
+\def\numerodorelatorio{R-XXXX/XXXX}
+\def\numerodoprocesso{0052600.XXXXXX/XXXX-XX}
+\def\nomedadivisao{Divisão de Metrologia Elétrica - Diele}
+\def\nomedolaboratorio{Laboratório de Metrologia em Padronização Elétrica~-~Lampe}
+\def\cliente{Laboratório de Metrologia em Padronização Elétrica~-~Lampe}
+\def\titulodorelatorio{}
+\def\atividaderelacionada{}
+
+\def\palavraschave{}
+\def\resumo{\abstract\setlength{\baselineskip}{.7\baselineskip}
+  \vskip .5cm
+  \input{resumo.tex}
+  \vskip .5cm
+}
+\def\nomedoautor{}
+\def\nomedochefedolaboratorio{}
+\def\nomedochefedadivisao{}
+\def\nomedoministerio{Ministério do Desenvolvimento, Indústria, Comércio e Serviços (MDIC)}
+
+
+% PREÂMBULO
+
+\documentclass[aps,showpacs,preprint,floatfix,hyphens,obeyspaces,spaces]{revtex4}
+\usepackage[a4paper,left=1.5cm,right=1.5cm,top=2.5cm,bottom=1.5cm]{geometry}
+\usepackage[brazil]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{pslatex}
+\usepackage{wrapfig}  
+\usepackage{booktabs}
+\usepackage[pdftex]{graphicx}
+\usepackage[pdftex,
+            pdfauthor={\nomedoautor},
+            pdftitle={\titulodorelatorio},
+            pdfproducer={Latex with hyperref},
+            pdfcreator={pdflatex}]{hyperref}
+\graphicspath{{figuras/}}                                              
+\usepackage{color}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage[scaled=0.85]{helvet}
+\usepackage{wasysym}
+\usepackage{pifont}
+\usepackage{fancyhdr}
+\usepackage{fancyvrb}
+\usepackage{tabularx}
+\usepackage{multirow}
+% \usepackage{textcomp}
+\usepackage{mathptmx}
+\usepackage{setspace}
+\usepackage{breqn}
+\usepackage{gensymb}
+\usepackage{verbatimbox}
+\usepackage{textcomp}
+\usepackage{IEEEtrantools}
+
+\renewcommand\thesection{\arabic{section}}
+\renewcommand\thesubsection{\arabic{section}.\arabic{subsection}}
+\renewcommand\thesubsubsection{\arabic{section}.\arabic{subsection}}
+
+\makeatletter
+\def\p@subsection{}
+\def\p@subsubsection{}
+\makeatother
+
+\usepackage{listings}
+\lstset
+{
+  basicstyle=\linespread{0.8}\footnotesize\ttfamily,
+  numberstyle=\footnotesize,
+  numbers=left,
+  columns=flexible,
+  backgroundcolor=\color{gray!10},
+  frame=single,
+  tabsize=2,
+  rulecolor=\color{black!30},
+  title=\lstname,
+  escapeinside={\%*}{*)},
+  breaklines=true,
+  breakatwhitespace=true,
+  framextopmargin=2pt,
+  framexbottommargin=2pt,
+  extendedchars=true,
+  inputencoding=utf8,
+}
+
+\renewcommand{\lstlistingname}{Listagem}
+\usepackage[section]{placeins}
+\usepackage{tikz}
+\usetikzlibrary{trees}
+\usepackage{PTSansNarrow}
+\newtheorem*{nota}{Nota}
+\usepackage{footnote}
+\usepackage{xcolor}
+\usepackage{floatrow}
+\floatsetup[table]{capposition=top}
+\usepackage{makecell}
+\makeatletter
+\@addtoreset{footnote}{section}
+\makeatother
+\usetikzlibrary{matrix}
+%\usepackage{multicol}
+%\usepackage{wrapfig}
+%\usepackage{array}
+
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+%\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\def\thesection{\arabic{section}}
+\def\thesubsection{\arabic{section}.\arabic{subsection}}
+\def\thesubsubsection{\arabic{section}.\arabic{subsection}.\arabic{subsubsection}}
+
+% Para compilar um índice remissivo
+\usepackage{makeidx}                                              
+%\usepackage{showidx}                                             
+\makeindex
+\def\thesection{\arabic{section}} 
+
+\hyphenation{cons-tan-te}
+\hyphenation{ca-li-brar}
+
+
+%__________________________________________________________________________________________________
+%                                                                               DEFINIÇÃO DE MACROS
+
+\renewcommand{\thetable}{\arabic{table}}   
+
+ \newlength{\hlegenda}
+ \newlength{\hfigura}
+% Parâmetros para \umafigura são 1-nome_do_arquivo;
+% 2-label; e 3-legenda. 
+ \newcommand{\umafigura}[3]{
+   \begin{figure}[ht]
+   \settoheight{\hlegenda}{
+     \begin{minipage}[t]{.45\linewidth} 
+     {#3} 
+     \end{minipage}
+   }
+   \settoheight{\hfigura}{
+     \includegraphics[width=.48\linewidth]{#1}
+   }
+%
+   \addtolength{\hfigura}{-\hlegenda}
+   \addtolength{\hfigura}{.5cm}
+
+     \includegraphics[width=.48\linewidth]{#1}
+     \hfill 
+     \raisebox{\hfigura}{
+       \begin{minipage}[t]{.45\linewidth} 
+       \caption{#3}
+       \label{#2}   
+       \end{minipage}
+     }
+
+   \end{figure} 
+
+ }%fim-umafigura
+
+% Parâmetros para \duasfiguras são 1-nome_do_arquivo;
+% 2-nome_do_arquivo; 3-label; e 4-legenda
+\newcommand{\duasfiguras}[4]{
+  \begin{figure}[ht]
+%    \savebox{1}[3in]{\includegraphics[width=.42\linewidth,height=.4\linewidth]{#1}}
+%    \savebox{2}[3in]{\includegraphics[width=.42\linewidth,height=.4\linewidth]{#2}}
+    \savebox{1}[3.2in]{\includegraphics[height=.3\linewidth]{#1}}
+    \savebox{2}[3.2in]{\includegraphics[height=.3\linewidth]{#2}}
+    \savebox{3}[2.5in]{\hskip 1in\bf(a)\hfill}
+    \savebox{4}[2.5in]{\hskip 1in\bf(b)\hfill}
+    %
+    \noindent\box1\hfill\box2\hfill\vskip .4cm
+    \noindent\box3\hfill\box4\hfill\vskip .25cm
+    %
+    \caption{#4}
+    \label{#3}
+  \end{figure}
+}%fim-duasfiguras
+ \newcommand{\figurap}[3]{
+    \begin{figure}[ht]                       
+         \begin{minipage}[p]{\linewidth} 
+             \includegraphics[width=.3\textwidth,]{#1}  
+             \caption{#3\label{#2}}          
+         \end{minipage}
+    \end{figure} 
+  }
+
+   \newcommand{\figuramp}[3]{
+    \begin{figure}[ht]                       
+         \begin{minipage}[p]{\linewidth} 
+             \includegraphics[width=.4\textwidth,]{#1}  
+             \caption{#3\label{#2}}          
+         \end{minipage}
+    \end{figure} 
+ }
+
+ \newcommand{\figura}[3]{
+    \begin{figure}[ht]                       
+         \begin{minipage}[p]{\linewidth} 
+             \includegraphics[width=.6\textwidth,]{#1}  
+             \caption{#3\label{#2}}          
+         \end{minipage}
+    \end{figure} 
+ }
+\newcommand{\figuram}[3]{
+    \begin{figure}[!htb]                       
+         \begin{minipage}[p]{\linewidth} 
+             \includegraphics[width=.7\textwidth,]{#1}  
+             \caption{#3\label{#2}}          
+         \end{minipage}
+    \end{figure} 
+ }
+ \newcommand{\figurag}[3]{
+    \begin{figure}[ht]                       
+         \begin{minipage}[p]{\linewidth} 
+             \includegraphics[width=.9\textwidth,]{#1}  
+             \caption{#3\label{#2}}          
+         \end{minipage}
+    \end{figure} 
+ }
+
+ \newcommand{\eqt}[2]{
+    \begin{equation}
+             {#2}
+             \label{#1}
+    \end{equation}
+ }
+
+\newcommand{\eqp}[5]{
+   \setlength{\arraycolsep}{0.0em} 
+   \begin{eqnarray}
+       \label{#1}
+       \ds{#2}&{}={}&\ds{#3}\nonumber\\ 
+        &&{#4}\:\ds{#5}
+   \end{eqnarray}
+   %\setlength{\arraycolsep}{5pt}
+}
+
+% Parâmetros: 1~4-figuras; 5-label; 6-legenda
+%
+ \newcommand{\quatrofiguras}[6]{                      
+ \begin{figure}[hp]
+    \vskip .8in 
+    \savebox{1}[2in]{\includegraphics[width=.46\linewidth,height=.44\linewidth]{#1}}
+    \savebox{2}[2in]{\includegraphics[width=.46\linewidth,height=.44\linewidth]{#2}}
+    \savebox{3}[2in]{\hskip 1.1in\Large\bf(a)\hfill}
+    \savebox{4}[2in]{\hskip 1.1in\Large\bf(b)\hfill}
+    \savebox{5}[2in]{\includegraphics[width=.46\linewidth,height=.44\linewidth]{#3}}
+    \savebox{6}[2in]{\includegraphics[width=.46\linewidth,height=.44\linewidth]{#4}}
+    \savebox{7}[2in]{\hskip 1.1in\Large\bf(c)\hfill}
+    \savebox{8}[2in]{\hskip 1.1in\Large\bf(d)\hfill}
+    %
+    \noindent\box1\hfill\box2\hfill\vskip .4cm
+    \noindent\box3\hfill\box4\hfill\vskip .75cm
+    \noindent\box5\hfill\box6\hfill\vskip .4cm
+    \noindent\box7\hfill\box8\hfill\vskip .25cm
+    %
+    \vskip .4in 
+    \caption{#6}
+    \label{#5}
+ \end{figure}
+ %\eject
+ }
+
+ \newcommand{\linefill}[1]{
+    \begin{tabular}{p{#1}}
+       \hline\
+    \end{tabular}
+ }
+
+
+ \def\obs{\par\noindent\hskip -.72cm{\huge\ding{43}}}
+ \def\bs{\textbackslash}
+ \newcommand{\vs}{{\it versus}\ }
+ \def\d{\partial}
+ \def\ds{\displaystyle}
+ \def\Wsat{W_\textrm{\footnotesize sat}}
+ \def\Ssat{S_\textrm{\footnotesize sat}}
+ \def\bpage{\ \thispagestyle{empty}\vfill\eject}
+
+\definecolor{lgray}{gray}{.80}
+\newcommand{\paintgray}[1]{%
+\setlength{\fboxrule}{0pt}% 
+\setlength{\fboxsep}{0pt}% 
+\colorbox{lgray}{#1}%
+} 
+
+%Uso: \DeclareFixedFont {<cmd>} {<encoding>} {<family>} {<series>} {<shape>} {<size>}
+%v. documento www.latex-project.org/guides/fntguide.pdf 
+\DeclareFixedFont{\rodape}{\encodingdefault}{cmr}{b}{n}{8}
+\DeclareFixedFont{\cabecalho}{\encodingdefault}{cmr}{b}{n}{11}
+\DeclareFixedFont{\campo}{\encodingdefault}{cmr}{b}{n}{8}
+\DeclareFixedFont{\signature}{\encodingdefault}{cmr}{b}{n}{11}
+\DeclareFixedFont{\abstract}{\encodingdefault}{cmr}{m}{n}{11}   
+
+\newcommand{\caixacinza}[4]{%&
+  \paintgray{%
+    \begin{tabularx}{#1}{|lX|}\hline
+      % line vertical size
+      \parbox[#3]{0pt}{\rule{0pt}{#2}
+      }&
+      % box
+      \parbox[#3]{\linewidth}{#4}
+      \\ \hline
+    \end{tabularx}}%
+}
+\newcommand{\caixabranca}[4]{%
+  \begin{tabularx}{#1}{|lX|}\hline
+    % line vertical size
+    \parbox[#3]{0pt}{\rule{0pt}{#2}
+    }&
+    % box
+    \parbox[#3]{\linewidth}{#4}
+    \\ \hline
+  \end{tabularx}%
+}
+\newcommand{\caixavazia}[4]{%
+  \begin{tabularx}{#1}{lX}
+    % line vertical size
+    \parbox[#3]{0pt}{\rule{0pt}{#2}
+    }&
+    % box
+    \parbox[#3]{\linewidth}{#4}
+    \\
+  \end{tabularx}%
+}
+
+% assinatura token
+\newcommand{\caixatoken}{
+  \setlength\fboxrule{2.25pt}
+  \fcolorbox{gray}{white}{
+    \parbox{5.06cm}{\rule{0pt}{1.82cm}}
+  }
+}
+
+\newcommand{\caixatokenvazia}{
+  \setlength\fboxrule{0pt}
+  \fcolorbox{gray}{white}{
+    \parbox{5.06cm}{\rule{0pt}{1.82cm}}
+  }
+}
+
+\def\rtdimcibanner{%
+  \begin{tabularx}{18cm}{lp{1.7cm}X}
+    % \hline
+    \specialrule{3pt}{1pt}{1pt}
+     %lineVsize
+     \parbox[c]{0pt}{\rule{0pt}{1.7cm} 
+     }&
+     %campo1
+     \parbox[c]{\linewidth}{\centering
+       \includegraphics[width=1.5cm]{logo.jpg}
+     }&
+     %campo2
+     \parbox[c]{\linewidth}{\centering
+       {\fontsize{24}{30}\selectfont\emph{Relatório Técnico Dimci}}
+     }
+     \\
+     % \hline
+     \specialrule{3pt}{1pt}{1pt}
+   \end{tabularx}
+ }
+
+
+\def\rtdimcibannercapa{%
+  \begin{tabularx}{18cm}{lp{1.7cm}X}
+    % \hline
+    \specialrule{3pt}{1pt}{1pt}
+     %lineVsize
+     \parbox[c]{0pt}{\rule{0pt}{1.7cm} 
+     }&
+     %campo1
+     \parbox[c]{\linewidth}{\centering
+       \vskip .25cm
+       \includegraphics[width=2.11cm]{logo.jpg}
+       \vskip .25cm
+     }&
+     %campo2
+     \parbox[c]{\linewidth}{\centering
+       {\fontsize{8}{8}\sffamily
+           \vskip .25cm
+       Serviço Público Federal \\
+       \nomedoministerio \\
+       Instituto Nacional de Metrologia, Qualidade e Tecnologia (Inmetro)
+
+     }
+   }
+     \\
+     % \hline
+     \specialrule{3pt}{1pt}{1pt}
+   \end{tabularx}
+ }
+ 
+%__________________________________________________________________________________________________
+%                                                                                 CABEÇALHO DA CAPA
+
+%Define o estilo "fpage" (front page).
+\fancypagestyle{fpage}{ %
+\fancyhf{} % clear all header and footer fields
+%
+\headheight=80pt% 
+\textheight=603pt%
+\footskip=80pt%
+\headsep=8pt%758pt total
+
+\chead{\rtdimcibannercapa}
+
+%
+\lhead{} %
+\rhead{} %
+\lfoot{\begin{spacing}{.6}\rodape \hfill Pág. \thepage/\pageref{final}\\  \makebox[18cm]{\hrulefill} \\ \end{spacing} \rodape }
+\cfoot{} %
+\rfoot{} %
+\renewcommand{\headrulewidth}{0pt} %
+\renewcommand{\footrulewidth}{0pt} %
+}
+
+%__________________________________________________________________________________________________
+%                                                                                CABEÇALHO DO CORPO                        
+
+%Redefine o estilo "plain". V. fancyhdr.pdf, p. 7:
+%Some LATEX commands, like \chapter, use the \thispagestyle command to automatically switch
+%to the plain page style, thus ignoring the page style currently in effect. To customize even such
+%pages you must redefine the plain pagestyle.
+\fancypagestyle{plain}{%
+\fancyhf{} % clear all header and footer fields
+%
+
+\headheight=134pt% 
+\textheight=600pt%
+\footskip=24pt
+\headsep=0pt%758pt total
+
+\chead{
+  \begin{center}
+    \rtdimcibanner \vskip .2cm %
+    \begin{tabularx}{18cm}{lX}
+      % lineVsize
+      \parbox[c]{0pt}{\rule{0pt}{1.5cm} 
+      }&
+      % campo1
+      \parbox[c]{\linewidth}{\hfill
+        \begin{tabular}{c}
+          \parbox[c]{.28\textwidth}{\hfill\bf\underline{\numerodorelatorio}}\\ 
+          \parbox[c]{.28\textwidth}{\hfill\bf \footnotesize{Número do Relatório}}
+        \end{tabular}
+      }
+      \\ 
+    \end{tabularx}
+  \end{center}
+}
+
+\lhead{}
+\rhead{}
+\lfoot{\begin{spacing}{.6}\rodape \hfill Pág. \thepage/\pageref{final}\\ \makebox[18cm]{\hrulefill} \\ \end{spacing}\rodape }
+\cfoot{}
+\rfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+}
+
+\begin{document}
+
+\tikzstyle{every node}=[thick,anchor=west, rounded corners, font={\scriptsize\ttfamily}, inner sep=2.5pt]
+\tikzstyle{selected}=[draw=blue,fill=blue!10]
+\tikzstyle{root}=[selected, fill=blue!30]
+
+\pagestyle{plain}
+
+%__________________________________________________________________________________________________
+%                                                                                              CAPA
+{\pagestyle{fpage}
+
+ \begin{center}                                             %N. DO RELATÓRIO, DATA, PROCESSO E TIPO
+  \tabcolsep=0pt
+  \arrayrulewidth=.2pt
+  \lineskip 0em
+  \renewcommand{\arraystretch}{0}
+  \lineskiplimit=0pt
+
+  % titulo do documento segundo MOD-Dimci-024
+  {\fontsize{42}{50}\selectfont\emph{Relatório Técnico}}
+  
+  \caixacinza{.25\hsize}{.3cm}{c}{\centering\campo N\textsuperscript{\underline{\scriptsize o}} DO RELAT\'ORIO}%
+  \caixacinza{.20\hsize}{.3cm}{c}{\centering\campo DATA}%
+  \caixacinza{.25\hsize}{.3cm}{c}{\centering\campo N\textsuperscript{\underline{\scriptsize o}} DO PROCESSO}%
+  \caixacinza{.30\hsize}{.3cm}{c}{\centering\campo TIPO DE RELAT\'ORIO}%
+  \vskip -.2pt
+
+  \caixabranca{.25\hsize}{1.5cm}{c}{\centering\abstract \numerodorelatorio}%
+  \caixabranca{.20\hsize}{1.5cm}{c}{\centering\abstract \vfill \ Ver data da \vskip -.3cm\ \ assinatura \vskip -.3cm\ \ eletrônica}%
+  \caixabranca{.25\hsize}{1.5cm}{c}{\centering\abstract \numerodoprocesso}%
+  \caixabranca{.30\hsize}{1.5cm}{c}{\abstract \vfill\ \ $\square$ N\~ao Reservado
+    \vskip -.15cm\ \ $\blacksquare$ Reservado\vfill}%
+  \vskip -2.3pt
+  \caixacinza{\hsize}{.3cm}{c}{\campo\ \ CLIENTE}
+  \vskip -.2pt
+%  \vskip -2.3pt
+  \caixabranca{\hsize}{1.5cm}{c}{\abstract\ \ \cliente}%
+  \vskip .3cm
+
+  \caixacinza{.5\hsize}{.3cm}{c}{\centering\campo DIVIS\~AO}%
+  \caixacinza{.5\hsize}{.3cm}{c}{\centering\campo LABORAT\'ORIO EMISSOR}%
+  \vskip -.3pt
+  \caixabranca{.5\hsize}{1.5cm}{c}{\centering\abstract \nomedadivisao}%
+  \caixabranca{.5\hsize}{1.5cm}{c}{\centering\abstract \setlength{\baselineskip}{.6\baselineskip} \nomedolaboratorio}%
+  \vskip .3cm
+
+  \caixacinza{\hsize}{.3cm}{c}{\campo\ \ T\'ITULO}
+  \vskip -2.3pt
+  \caixabranca{\hsize}{1cm}{c}{\abstract\ \ \titulodorelatorio}%
+  \vskip -2.3pt
+  \caixacinza{\hsize}{.3cm}{c}{\campo\ \ ATIVIDADES}
+  \vskip -2.3pt
+  \caixabranca{\hsize}{1cm}{c}{\abstract\ \ \atividaderelacionada}%
+  \vskip -2.3pt
+  \caixacinza{\hsize}{.3cm}{c}{\campo\ \ PALAVRAS-CHAVES}
+  \vskip -2.3pt
+  \caixabranca{\hsize}{1cm}{c}{\abstract\ \ \palavraschave}%
+  \vskip -2.3pt
+  \caixacinza{\hsize}{.3cm}{c}{\campo\ \ RESUMO}
+  \vskip -.2pt
+  \caixabranca{\hsize}{3cm}{c}{\ \
+    \parbox[c]{.95\linewidth}{\resumo}}%
+  \vskip -.2pt
+  \caixacinza{\hsize}{.3cm}{c}{\campo\ \ AUTOR(ES)}
+  \vskip -.2pt
+  
+  \caixabranca{18cm}{2cm}{l}{%
+     \caixavazia{5cm}{2cm}{l}{\centering\abstract
+        \vfill \nomedoautor
+      } }%
+    \vskip -.2pt
+    % CHEFE DO LABORATÓRIO E DA DIVISÃO
+  \caixavazia{8cm}{2cm}{b}{\centering\signature                 
+     \vskip -.25cm \nomedochefedolaboratorio
+     \vskip -.25cm Chefe do Laboratório}%
+   \vskip .8cm
+
+   % \caixavazia{5.06cm}{1.82cm}{b}{}
+   \caixatokenvazia
+   \caixavazia{5.06cm}{1cm}{b}{\centering\signature 
+     \vskip -.25cm \nomedochefedadivisao 
+     \vskip -.25cm Chefe da Divisão}%
+   \caixatoken
+\end{center}
+\eject}
+
+
+%__________________________________________________________________________________________________
+%                                                                               SUMÁRIO E OBJETIVOS
+%
+\noindent {\bf SUMÁRIO}\\
+
+\noindent 
+{\bf 1 Objetivo}, \pageref{objetivo}\\
+{\bf 2 Introdu\c c\~ao}, \pageref{intro}\\
+{\bf 3 Desenvolvimento}, \pageref{desenvolvimento}\\
+{\bf 4 Conclus\~ao}, \pageref{conclusao}\\
+{\bf 5 Refer\^encias e Notas}, \pageref{referencias}\\
+%{\bf Índice Remissivo}, \pageref{indice}
+
+%__________________________________________________________________________________________________
+%                                                                                          OBJETIVO
+
+\section{Objetivo}
+\label{objetivo}
+\input{objetivo.tex}
+
+%__________________________________________________________________________________________________
+%                                                                                        INTRODUÇÃO
+ \section{Introdu\c c\~ao}
+ \label{intro}
+ \input{intro.tex}
+
+%__________________________________________________________________________________________________
+ \section{Desenvolvimento}
+ \label{desenvolvimento}
+ \input{desenvolvimento.tex}
+ 
+ \section{Conclusão}
+ \label{conclusao}
+ \input{conclusao.tex}
+ 
+ % This will remove the section title, so the line will be removed
+ \section{Refer\^encias e Notas}
+ \label{referencias}
+ 
+ \def\bibsection{}
+ \begin{thebibliography}{99}
+
+\bigbreak
+
+\bibitem{exemplo}
+  Autor. ``Relatório de exemplo''. Relatório Técnico Dimci RTDR xxxx/xxxx.
+  
+\end{thebibliography}  
+\label{final}
+
+\end{document}
